@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_planner/providers/user_provider.dart';
+import 'package:go_planner/screens/auth_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:go_planner/services/theme_provider.dart';
 import 'package:flutter/services.dart';
@@ -136,6 +138,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: const Icon(Icons.support_agent),
                 onTap: () {
                   _showContactDialog();
+                },
+              ),
+            ),
+            Card(
+              margin: const EdgeInsets.all(16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ListTile(
+                title: const Text('Sign Out'),
+                
+                leading: const Icon(Icons.logout_rounded),
+                onTap: () {
+                  Provider.of<UserProvider>(context, listen: false).signOut();
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const AuthScreen()));
                 },
               ),
             ),

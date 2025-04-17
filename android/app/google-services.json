@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "40075742974",
+    "project_id": "g0-planner",
+    "storage_bucket": "g0-planner.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40075742974:android:51d647f1abf3d3f1dc5faf",
+        "android_client_info": {
+          "package_name": "com.ajay.goplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40075742974-pkc9sl9vff4sijgdd3pe8fe3pudiuvfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ajay.goplanner",
+            "certificate_hash": "f42fd17da5124d4e0c0ec4db60100eeba2daaad0"
+          }
+        },
+        {
+          "client_id": "40075742974-18k92so9ef6khcs73sfijc49hjdi68cn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfx8d3V9lBFAe66WdLtKm6O07a-UTfQnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40075742974-18k92so9ef6khcs73sfijc49hjdi68cn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "40075742974-o110kg966olr9454ep7rbpoc6g3d8omq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.goPlanner"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40075742974:android:95fc691c586ee6d0dc5faf",
+        "android_client_info": {
+          "package_name": "com.example.go_planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40075742974-18k92so9ef6khcs73sfijc49hjdi68cn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfx8d3V9lBFAe66WdLtKm6O07a-UTfQnc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40075742974-18k92so9ef6khcs73sfijc49hjdi68cn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "40075742974-o110kg966olr9454ep7rbpoc6g3d8omq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.goPlanner"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

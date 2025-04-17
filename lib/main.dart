@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:go_planner/screens/generate_screen.dart';
-import 'package:go_planner/screens/saved_screen.dart';
-import 'package:go_planner/screens/settings_screen.dart';
-import 'package:go_planner/services/theme_provider.dart';
+import 'package:go_planner/firebase_options.dart';
+import 'package:go_planner/providers/user_provider.dart';
+import 'package:go_planner/screens/home_screen.dart';
+import 'package:go_planner/screens/onboarding_screen.dart';
 import 'package:go_planner/screens/splash_screen.dart';
+import 'package:go_planner/services/theme_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await dotenv.load(fileName: ".env");
+  
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -37,67 +46,27 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    
+    final userProvider = Provider.of<UserProvider>(context);
+
     return MaterialApp(
       title: 'GoPlanner',
       theme: themeProvider.currentTheme,
-      home: _showSplash 
+      home: _showSplash
           ? SplashScreen(onComplete: _completeSplash)
-          : const MainScreen(),
+          : userProvider.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _buildAppFlow(userProvider),
       debugShowCheckedModeBanner: false,
     );
   }
-}
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
-
-  @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-
-  final List<Widget> _screens = [
-    const GenerateScreen(),
-    const SavedScreen(),
-    const SettingsScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final isDarkMode = Provider.of<ThemeProvider>(context).isDarkMode;
+  Widget _buildAppFlow(UserProvider userProvider) {
+    // If user is already logged in, go directly to home
+    if (userProvider.isLoggedIn) {
+      return const HomeScreen();
+    }
     
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) => setState(() => _currentIndex = index),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.travel_explore),
-            label: 'Generate',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark), 
-            label: 'Saved'
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: isDarkMode 
-            ? Colors.grey[400] 
-            : Colors.grey[600],
-        backgroundColor: isDarkMode 
-            ? const Color(0xFF1A1A1A) 
-            : Colors.white,
-        type: BottomNavigationBarType.fixed,
-        elevation: 8,
-      ),
-    );
+    // Otherwise show onboarding -> auth
+    return const OnboardingScreen();
   }
 }

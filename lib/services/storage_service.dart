@@ -49,4 +49,33 @@ class StorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_themeKey, value);
   }
+
+  Future<void> saveActiveStatus(String itineraryId, bool isActive) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final activeStatusKey = 'active_status_$itineraryId';
+      await prefs.setBool(activeStatusKey, isActive);
+    } catch (e) {
+      throw Exception('Failed to save active status: ${e.toString()}');
+    }
+  }
+
+  // Method to get all active statuses
+  Future<Map<String, bool>> getActiveStatuses() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final Map<String, bool> statuses = {};
+      
+      final itineraries = await getSavedItineraries();
+      for (final itinerary in itineraries) {
+        final activeStatusKey = 'active_status_${itinerary.id}';
+        final isActive = prefs.getBool(activeStatusKey) ?? false;
+        statuses[itinerary.id] = isActive;
+      }
+      
+      return statuses;
+    } catch (e) {
+      throw Exception('Failed to get active statuses: ${e.toString()}');
+    }
+  }
 }
